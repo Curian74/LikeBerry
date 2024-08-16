@@ -1,0 +1,34 @@
+﻿<Window x:Class="LikeBerry.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LikeBerry"
+        mc:Ignorable="d"
+        Title="Login" Height="450" Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F7F7F7"
+        KeyDown="Window_KeyDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Text="LikeBerry Login" FontSize="24" FontWeight="Bold" Foreground="#333"
+                   HorizontalAlignment="Center" Margin="0,20,0,20"/>
+        <StackPanel Grid.Row="1" Margin="40">
+            <TextBlock Text="Email" FontSize="16" Foreground="#555" Margin="0,10,0,5"/>
+            <TextBox Name="EmailTextBox" FontSize="16" Padding="10" Background="#FFF" BorderBrush="#DDD" BorderThickness="1"/>
+
+            <TextBlock Text="Password" FontSize="16" Foreground="#555" Margin="0,20,0,5"/>
+
+            <PasswordBox Name="PasswordBox" FontSize="16" Padding="10" Background="#FFF" BorderBrush="#DDD" BorderThickness="1"/>
+
+            <Button Content="Login" FontSize="16" FontWeight="Bold" Background="#007ACC" Foreground="#FFF" Padding="10"
+                    Margin="0,30,0,0" HorizontalAlignment="Center" Width="120" Click="LoginButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

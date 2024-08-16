@@ -1,0 +1,73 @@
+﻿<Window x:Class="LikeBerry.EditUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LikeBerry"
+        mc:Ignorable="d"
+        Title="EditUser" Height="450" Width="600"
+        WindowStartupLocation="CenterScreen">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Margin="0,0,0,50" Background="#007ACC" Height="60" VerticalAlignment="Top" Grid.Row="0">
+            <TextBlock Text="Edit User" VerticalAlignment="Center" HorizontalAlignment="Center"
+       FontSize="24" FontWeight="Bold" Foreground="White"/>
+        </Border>
+        <TextBlock x:Name="warn" FontSize="12" FontWeight="Medium" Foreground="Red" FontStyle="Italic" Margin="5,80,0,0" Grid.Row="0">* You can only edit user's role and status *</TextBlock>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Full Name:" Grid.Row="0" Grid.Column="0" Margin="0,0,10,10" VerticalAlignment="Center"/>
+                    <TextBox Height="25" IsEnabled="False" Name="txtFullName" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Email:" Grid.Row="1" Grid.Column="0" Margin="0,0,10,10" VerticalAlignment="Center"/>
+                    <TextBox Height="25" IsEnabled="False" Name="txtEmail" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Phone Number:" Grid.Row="2" Grid.Column="0" Margin="0,0,10,10" VerticalAlignment="Center"/>
+                    <TextBox Height="25" IsEnabled="False" Name="txtPhoneNumber" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Address:" Grid.Row="3" Grid.Column="0" Margin="0,0,10,10" VerticalAlignment="Center"/>
+                    <TextBox Height="25" IsEnabled="False" Name="txtAddress" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Role:" Grid.Row="4" Grid.Column="0" Margin="0,0,10,10" VerticalAlignment="Center"/>
+                    <ComboBox Name="cmbRole" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RoleName}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Text="Is Active?" Grid.Row="5" Grid.Column="0" Margin="0,0,10,10" VerticalAlignment="Center"/>
+                    <CheckBox Name="chkStatus" Grid.Row="5" Grid.Column="1" Margin="0,0,0,10"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Save" Click="SaveUser_Click" Width="80" Margin="0,0,10,0"/>
+            <Button Click="CancelEdit_Click" Content="Cancel" Width="80"/>
+        </StackPanel>
+    </Grid>
+</Window>

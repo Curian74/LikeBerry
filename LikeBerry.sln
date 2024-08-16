@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LikeBerry", "LikeBerry\LikeBerry.csproj", "{ABC56BCC-2719-47CD-A01F-4F6D4708A63D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABC56BCC-2719-47CD-A01F-4F6D4708A63D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABC56BCC-2719-47CD-A01F-4F6D4708A63D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABC56BCC-2719-47CD-A01F-4F6D4708A63D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABC56BCC-2719-47CD-A01F-4F6D4708A63D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51588787-D86D-42C8-8045-600BC31276D9}
+	EndGlobalSection
+EndGlobal

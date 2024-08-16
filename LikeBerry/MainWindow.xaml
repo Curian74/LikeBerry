@@ -1,0 +1,294 @@
+﻿<Window x:Class="LikeBerry.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LikeBerry"
+        mc:Ignorable="d"
+        Title="LikeBerry Library" Height="600" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize">
+
+    <Window.Resources>
+        <local:ImagePathConverter x:Key="ImagePathConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Header -->
+        <Border Background="#007ACC" Height="60" VerticalAlignment="Top">
+            <Grid>
+                <Image Source="https://static.wikia.nocookie.net/plantsvszombies/images/f/fc/Blueberryimage.png/revision/latest?cb=20150924171150"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Height="108" Width="88" Margin="10,0,0,0"/>
+                <TextBlock Text="LikeBerry Library System" VerticalAlignment="Center" HorizontalAlignment="Center"
+                   FontSize="20" FontWeight="Bold" Foreground="White"/>
+                <Button Content="Logout" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                Margin="0,0,20,0" Padding="10,5" Click="LogoutButton_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- Tabs -->
+        <TabControl Grid.Row="0" Margin="20,80,20,20">
+            <!-- Books Tab -->
+            <TabItem Header="Books">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Filter Controls -->
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <TextBlock Text="Search for book name:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBox Name="searchBook" Width="200" VerticalAlignment="Center" TextChanged="SearchTextBox_TextChanged"/>
+                        <TextBlock Text="Genre:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+                        <ComboBox Name="genreFilter" Width="120" VerticalAlignment="Center">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding GenreName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <TextBlock Text="Author:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+                        <ComboBox Name="authorFilter" Width="120" VerticalAlignment="Center">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding AuthorName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Height="23" Width="83" Margin="100,0,0,0" Click="AddAuthor_Click">Add new author</Button>
+                        <Button Height="23" Width="83" Margin="30,0,0,0" Click="Add_Click">Add new book</Button>
+                        <Button Height="23" Width="50" Margin="100,0,0,0" Click="Ref_Click">Refresh</Button>
+                    </StackPanel>
+
+                    <TextBlock FontWeight="Medium" Foreground="Red" FontStyle="Italic" Margin="10,0,0,0" Grid.Row="1">*Note: Click on the book to select that book*</TextBlock>
+
+                    <!-- ScrollViewer for ListView -->
+                    <ScrollViewer Grid.Row="1" Margin="25" VerticalScrollBarVisibility="Auto">
+                        <ListView Name="bookList"
+                                  BorderBrush="#007ACC" BorderThickness="1" Background="White">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding BookId}" Width="50"/>
+                                    <GridViewColumn Header="Image" Width="120">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding Img, Converter={StaticResource ImagePathConverter}}" MaxWidth="120" Height="110" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Book name" DisplayMemberBinding="{Binding BookName}" Width="250"/>
+                                    <GridViewColumn Header="ISBN" DisplayMemberBinding="{Binding Isbn}" Width="140"/>
+                                    <GridViewColumn Header="Author" DisplayMemberBinding="{Binding Author.AuthorName}" Width="140"/>
+                                    <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre.GenreName}" Width="100"/>
+                                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding InstockQuantity}" Width="70"/>
+                                    <GridViewColumn Header="Issue Date" DisplayMemberBinding="{Binding IssueDate, StringFormat={}{0:yyyy-MM-dd}}" Width="80"/>
+                                    <GridViewColumn Header="Actions" Width="150">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Width="50" Content="Edit" Margin="0,0,5,0" Click="Button_Click"/>
+                                                    <Button Width="50" Content="Delete" Margin="0,0,5,0" Click="Delete_Book"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- Users Tab -->
+            <TabItem Header="Users" Name="usersTab">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="64*"/>
+                        <ColumnDefinition Width="513*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Filter Controls -->
+                    <StackPanel Orientation="Horizontal" Margin="10,10,10,10" Grid.ColumnSpan="2">
+                        <TextBlock Text="Search for user ID:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBox Name="searchUser" Width="200" VerticalAlignment="Center" TextChanged="SearchUserTextBox_TextChanged"/>
+                        <TextBlock Text="Role:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+                        <ComboBox Name="roleFilter" Width="120" VerticalAlignment="Center" SelectionChanged="FilterUsers">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding RoleName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Height="20" Width="83" Margin="250,0,0,0" Click="AddUser_Click">Add new user</Button>
+                        <Button Height="20" Width="50" Margin="100,0,0,0" Click="RefreshUsers_Click">Refresh</Button>
+                    </StackPanel>
+
+                    <TextBlock FontWeight="Medium" Foreground="Red" FontStyle="Italic" Margin="10,0,0,0" Grid.Row="1" Grid.ColumnSpan="2">*Note: Click on the user to select that user*</TextBlock>
+
+                    <!-- ScrollViewer for ListView -->
+                    <ScrollViewer Grid.Row="1" Margin="25,25,25,25" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+                        <ListView Name="userList"
+                      BorderBrush="#007ACC" BorderThickness="1" Background="White">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding UserId}" Width="50"/>
+                                    <GridViewColumn Header="Full Name" DisplayMemberBinding="{Binding FullName}" Width="150"/>
+                                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="200"/>
+                                    <GridViewColumn x:Name="userRole" Header="Role" DisplayMemberBinding="{Binding Role.RoleName}" Width="100"/>
+                                    <GridViewColumn Header="Phone Number" DisplayMemberBinding="{Binding PhoneNumber}" Width="120"/>
+                                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="200"/>
+                                    <GridViewColumn Header="Action" Width="80">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Width="50" Content="Edit" Click="EditCustomer_Click" Margin="0,0,5,0"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Booking requests">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Filter Controls -->
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <TextBlock Text="Search for user id:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBox Name="searchBooking" Width="200" VerticalAlignment="Center" TextChanged="SearchBookingTextBox_TextChanged"/>
+                        <Button Height="20" Width="83" Margin="450,0,0,0" Click="RefreshBookings_Click">Refresh</Button>
+                    </StackPanel>
+
+                    <TextBlock FontWeight="Medium" Foreground="Red" FontStyle="Italic" Margin="10,0,0,0" Grid.Row="1">*Note: Click on the booking to select that booking</TextBlock>
+                    
+                    <!-- ScrollViewer for ListView -->
+                    <ScrollViewer Grid.Row="1" Margin="25" VerticalScrollBarVisibility="Auto">
+                        <ListView Name="bookingList" BorderBrush="#007ACC" BorderThickness="1" Background="White">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Booking ID" DisplayMemberBinding="{Binding BookingId}" Width="100"/>
+                                    <GridViewColumn Header="User ID" DisplayMemberBinding="{Binding User.UserId}" Width="70"/>
+                                    <GridViewColumn Header="Book ID" DisplayMemberBinding="{Binding BookingDetails[0].BookId}" Width="70"/>
+                                    <GridViewColumn Header="Booking Date" DisplayMemberBinding="{Binding BookingDate}" Width="130"/>
+                                    <GridViewColumn Header="Return Date" DisplayMemberBinding="{Binding ReturnDate, StringFormat={}{0:yyyy-MM-dd}}" Width="100"/>
+                                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding BookingDetails[0].Quantity}" Width="70"/>
+                                    <GridViewColumn Header="Full Name" DisplayMemberBinding="{Binding BookingDetails[0].FullName}" Width="100"/>
+                                    <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding BookingDetails[0].PhoneNumber}" Width="100"/>
+                                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding BookingDetails[0].Address}" Width="100"/>
+                                    <GridViewColumn Header="Status" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Status}">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="FontWeight" Value="Bold"/>
+                                                            <!-- Increase font weight -->
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Status}" Value="Submitted">
+                                                                    <Setter Property="Foreground" Value="#DFBA25"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Actions" Width="140">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Width="50" Content="Approve" Margin="0,0,5,0" Click="ApproveBooking_Click"/>
+                                                    <Button Width="50" Content="Deny" Margin="0,0,5,0" Click="DenyBooking_Click"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- Finished request tab -->
+            <TabItem Header="Finished requests">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Filter Controls -->
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <TextBlock Text="Search for user id:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBox Name="searchFinishedBooking" Width="200" VerticalAlignment="Center" TextChanged="SearchFinishedBookingTextBox_TextChanged"/>
+                        <TextBlock Text="Status:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+                        <ComboBox Name="finishedStatusFilter" Width="120" VerticalAlignment="Center" SelectionChanged="FilterFinishedBookings">
+                            <ComboBoxItem Content="All Statuses"/>
+                            <ComboBoxItem Content="Approved"/>
+                            <ComboBoxItem Content="Denied"/>
+                        </ComboBox>
+                        <Button Height="20" Width="83" Margin="450,0,0,0" Click="RefreshFinishedBookings_Click">Refresh</Button>
+                    </StackPanel>
+
+                    <!-- ScrollViewer for ListView -->
+                    <ScrollViewer Grid.Row="1" Margin="25" VerticalScrollBarVisibility="Auto">
+                        <ListView Name="finishedBookingList" BorderBrush="#007ACC" BorderThickness="1" Background="White">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Booking ID" DisplayMemberBinding="{Binding BookingId}" Width="100"/>
+                                    <GridViewColumn Header="User ID" DisplayMemberBinding="{Binding User.UserId}" Width="70"/>
+                                    <GridViewColumn Header="Book ID" DisplayMemberBinding="{Binding BookingDetails[0].BookId}" Width="70"/>
+                                    <GridViewColumn Header="Booking Date" DisplayMemberBinding="{Binding BookingDate, StringFormat={}{0:yyyy-MM-dd}}" Width="120"/>
+                                    <GridViewColumn Header="Return Date" DisplayMemberBinding="{Binding ReturnDate, StringFormat={}{0:yyyy-MM-dd}}" Width="120"/>
+                                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding BookingDetails[0].Quantity}" Width="70"/>
+                                    <GridViewColumn Header="Full Name" DisplayMemberBinding="{Binding BookingDetails[0].FullName}" Width="100"/>
+                                    <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding BookingDetails[0].PhoneNumber}" Width="100"/>
+                                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding BookingDetails[0].Address}" Width="100"/>
+                                    <GridViewColumn Header="Status" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Status}">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="FontWeight" Value="Bold"/>
+                                                            <!-- Increase font weight -->
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Status}" Value="Approved">
+                                                                    <Setter Property="Foreground" Value="Green"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Status}" Value="Denied">
+                                                                    <Setter Property="Foreground" Value="Red"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Processed by" DisplayMemberBinding="{Binding ProcessedByNavigation.FullName}" Width="100"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>

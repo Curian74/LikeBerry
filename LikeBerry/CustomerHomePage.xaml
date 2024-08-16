@@ -1,0 +1,100 @@
+﻿<Window x:Class="LikeBerry.CustomerHomePage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LikeBerry"
+        mc:Ignorable="d"
+        Title="LikeBerry Library" Height="600" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize">
+
+    <Window.Resources>
+        <local:ImagePathConverter x:Key="ImagePathConverter"/>
+    </Window.Resources>
+    <Grid>
+        <!-- Header -->
+        <Border Background="#007ACC" Height="60" VerticalAlignment="Top">
+            <Grid>
+                <Image Source="https://static.wikia.nocookie.net/plantsvszombies/images/f/fc/Blueberryimage.png/revision/latest?cb=20150924171150"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Height="108" Width="88" Margin="10,0,0,0"/>
+                <TextBlock Text="Welcome to LikeBerry" VerticalAlignment="Center" HorizontalAlignment="Center"
+                   FontSize="20" FontWeight="Bold" Foreground="White"/>
+                <Button Click="Logout_Click" Content="Logout" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                Margin="0,0,20,0" Padding="10,5"/>
+                <Button Click="MyBooking_Click" Content="My Bookings" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                Margin="0,0,100,0" Padding="10,5" />
+            </Grid>
+        </Border>
+
+        <!-- Tabs -->
+        <TabControl Grid.Row="0" Margin="20,80,20,20">
+            <!-- Books Tab -->
+            <TabItem Header="Books">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Filter Controls -->
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <TextBlock Text="Search:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBox Name="searchBook" Width="200" VerticalAlignment="Center" TextChanged="FilterBooks" />
+                        <TextBlock Text="Genre:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+                        <ComboBox Name="genreFilter" Width="120" VerticalAlignment="Center" SelectionChanged="FilterBooks">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding GenreName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <TextBlock Text="Author:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+                        <ComboBox Name="authorFilter" Width="120" VerticalAlignment="Center" SelectionChanged="FilterBooks">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding AuthorName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Height="20" Width="50" Margin="100,0,0,0" Click="RefreshBooks_Click">Refresh</Button>
+                    </StackPanel>
+
+                    <TextBlock FontWeight="Medium" Foreground="Red" FontStyle="Italic" Margin="10,0,0,0" Grid.Row="1">*Note: Click on the book to select that book*</TextBlock>
+
+                    <!-- ScrollViewer for ListView -->
+                    <ScrollViewer Grid.Row="1" Margin="25" VerticalScrollBarVisibility="Auto">
+                        <ListView Name="bookList"
+                                  BorderBrush="#007ACC" BorderThickness="1" Background="White">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding BookId}" Width="50"/>
+                                    <GridViewColumn Header="Image" Width="120">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding Img, Converter={StaticResource ImagePathConverter}}" MaxWidth="120" Height="110" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Book name" DisplayMemberBinding="{Binding BookName}" Width="250"/>
+                                    <GridViewColumn Header="ISBN" DisplayMemberBinding="{Binding Isbn}" Width="140"/>
+                                    <GridViewColumn Header="Author" DisplayMemberBinding="{Binding Author.AuthorName}" Width="140"/>
+                                    <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre.GenreName}" Width="100"/>
+                                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding InstockQuantity}" Width="70"/>
+                                    <GridViewColumn Header="Issue Date" DisplayMemberBinding="{Binding IssueDate, StringFormat={}{0:yyyy-MM-dd}}" Width="80"/>
+                                    <GridViewColumn Header="Actions" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Width="80" Click="BookNow_Click" Content="Book Now"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
